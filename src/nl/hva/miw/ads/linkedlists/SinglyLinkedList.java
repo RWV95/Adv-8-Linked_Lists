@@ -9,7 +9,6 @@ public class SinglyLinkedList {
 
     private class Node {
         int value;
-
         Node next=null;      // Link to next node
 
         public Node(int value) {
@@ -27,6 +26,7 @@ public class SinglyLinkedList {
         return size;
     }
 
+
     /**
      * Return the value in the list at position index.
      *
@@ -34,7 +34,14 @@ public class SinglyLinkedList {
      * @return
      */
     public int get( int index ) {
-        return -1;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node current = head;
+        for (int currentNode = 0; currentNode < index; currentNode++) {
+            current = current.next;
+        }
+        return current.value;
     }
 
     /**
@@ -43,12 +50,23 @@ public class SinglyLinkedList {
      * @param index
      * @param value
      */
-    public void add( int index, int value ) {
-        // Implement, create a new Node for this entry.
+    public void add(int index, int value) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node newNode = new Node(value);
+        size++;
 
-        Node n = new Node( value );
-
-        // Implement the rest
+        if (index == 0) {
+            newNode.next = head;
+            head = newNode;
+        }
+        Node current = head;
+        for (int currentNode = 0; currentNode < index - 1; currentNode++) {
+            current = current.next;
+        }
+        newNode.next = current.next;
+        current.next = newNode;
     }
 
     /**
@@ -56,15 +74,26 @@ public class SinglyLinkedList {
      *
      * @param index
      */
-    public void remove( int index ) {
-        // Implement, remove the corresponding node from the linked list.
-    }
+    public void remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
 
+        if (index == 0) {
+            head = head.next;
+        } else {
+            Node temp = head;
+            for (int i = 0; i < index - 1; i++) {
+                temp = temp.next;
+            }
+            temp.next = temp.next.next;
+        }
+        size--;
+    }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-
         sb.append("SinglyLinkedList{size=").append(size).append("}");
 
         Node current = this.head;
@@ -73,10 +102,6 @@ public class SinglyLinkedList {
             sb.append( current.value );
             current = current.next;
         }
-
         return sb.toString();
     }
-
-
-
 }
