@@ -33,7 +33,7 @@ public class SinglyLinkedList {
      * @param index
      * @return
      */
-    public int get( int index ) {
+    public int get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
@@ -82,11 +82,11 @@ public class SinglyLinkedList {
         if (index == 0) {
             head = head.next;
         } else {
-            Node temp = head;
-            for (int i = 0; i < index - 1; i++) {
-                temp = temp.next;
+            Node current = head;
+            for (int node = 0; node < index - 1; node++) {
+                current = current.next;
             }
-            temp.next = temp.next.next;
+            current.next = current.next.next;
         }
         size--;
     }

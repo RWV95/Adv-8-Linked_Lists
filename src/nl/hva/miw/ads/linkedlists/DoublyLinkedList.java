@@ -34,8 +34,15 @@ public class DoublyLinkedList {
      * @param index
      * @return
      */
-    public int get( int index ) {
-        return -1;
+    public int get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node current = head;
+        for (int currentNode = 0; currentNode < index; currentNode++) {
+            current = current.next;
+        }
+        return current.value;
     }
 
     /**
@@ -44,22 +51,55 @@ public class DoublyLinkedList {
      * @param index
      * @param value
      */
-    public void add( int index, int value ) {
-        // Implement, create a new Node for this entry.
-
-        Node n = new Node( value );
-
-        // Implement the rest
-
+    public void add(int index, int value) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node newNode = new Node(value);
+        size++;
+        if (index == 0) {
+            if (head != null) {
+                head.prev = newNode;
+            }
+            newNode.next = head;
+            head = newNode;
+            return;
+        }
+        Node current = head;
+        for (int currentNode = 0; currentNode < index - 1; currentNode++) {
+            current = current.next;
+        }
+        newNode.next = current.next;
+        newNode.prev = current;
+        if (current.next != null) {
+            current.next.prev = newNode;
+        }
+        current.next = newNode;
     }
 
     /**
-     * Remove an elmeent from the list at position index, if it exists.
+     * Remove an element from the list at position index, if it exists.
      *
      * @param index
      */
-    public void remove( int index ) {
-        // Implement, remove the corresponding node from the linked list.
+    public void remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        size--;
+        if (index == 0) {
+            head = head.next;
+        }
+        Node current = head;
+        for (int node = 0; node < index; node++) {
+            current = current.next;
+        }
+        if (current.next != null) {
+            current.next.prev = current.prev;
+        }
+        if (current.prev != null) {
+            current.prev.next = current.next;
+        }
     }
 
 
